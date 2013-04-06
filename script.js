@@ -12,14 +12,40 @@ TODOs:
 
 */
 
-var SPREADSHEET_ID = "REPLACE ME"; // Spreadsheet to use
+/*
+ * Config variables
+ */
+
+// Spreadsheet to use
+var SPREADSHEET_ID = "REPLACE ME";
+
+// Number of people in a lunch group
+var GROUP_SIZE = 4;
+
+// Title of the calendar event
+var EVENT_TITLE = "Random Lunch";
+
+// Text displayed in the calendar event
+var EVENT_DESCRIPTION = "Lunchbot has spoken: you're going to lunch on Wednesday! See the other people invited to this event and make some plans!";
+
+// Times for the calendar event to start and end.
+// All are positive integers. Hours are for a 24 hour clock.
+var EVENT_START_TIME_HOURS = 12;
+var EVENT_START_TIME_MINUTES = 0;
+var EVENT_END_TIME_HOURS = 13;
+var EVENT_END_TIME_MINUTES = 0;
+
+// Number of days from now to create the calendar event
+// Positive integer.
+// eg if 1, and the script is ran now, the calendar invite will be for tomorrow.
+var EVENT_START_DAYS_IN_ADVANCE = 1;
+
+// Variables you only want to change if you're modifying the script
 
 var START_ROW = 2;
 var START_COL = 2;
-var GROUP_SIZE = 4;
 var LARGEST_POSSIBLE_GROUP = GROUP_SIZE + (GROUP_SIZE - 1);
 var END_COL = 3 + LARGEST_POSSIBLE_GROUP; // timestamp, email, team, highest possible past lunchpeople
-var EVENT_DESCRIPTION = "Lunchbot has spoken: you're going to lunch on Wednesday! See the other people invited to this event and make some plans!";
 
 function pickPerson(people, group) {
 
@@ -116,8 +142,14 @@ function readRows() {
  
   Logger.log(groups);
   var d = new Date();
-  var startTime = new Date(d.getFullYear(), d.getMonth(), d.getDate() + 1, 12, 0); // tomorrow at 12:00 PM
-  var endTime = new Date(d.getFullYear(), d.getMonth(), d.getDate() + 1, 13, 0); // tomorrow at 1:00 PM
+  var startTime = new Date(d.getFullYear(), d.getMonth(),
+                           d.getDate() + EVENT_START_DAYS_IN_ADVANCE,
+                           EVENT_START_TIME_HOURS,
+                           EVENT_START_TIME_MINUTES);
+  var endTime = new Date(d.getFullYear(), d.getMonth(),
+                         d.getDate() + EVENT_START_DAYS_IN_ADVANCE,
+                         EVENT_END_TIME_HOURS,
+                         EVENT_END_TIME_MINUTES);
 
   for (var i in groups) {
 
@@ -129,7 +161,7 @@ function readRows() {
     emails = emails.join(', ');
 
     // send the calendar invite
-    CalendarApp.createEvent("Random Lunch", startTime, endTime, {
+    CalendarApp.createEvent(EVENT_TITLE, startTime, endTime, {
       description: EVENT_DESCRIPTION,
       guests: emails,
       sendInvites: true
