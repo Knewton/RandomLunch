@@ -1,4 +1,4 @@
-/* Main entry point is function readRows. 
+/* Main entry point is function main().
 
 Before running this, make sure:
  * You're running it from the Lunchbot account
@@ -172,3 +172,5 @@ function readRows() {
   }
 
 };
+
+function main() { readRows(); }

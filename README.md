@@ -29,7 +29,8 @@ still make a group.
    spreadsheet created in step 1. This id (at the time of this writing) is
    found in the `GET` param `key`,
    e.g. `https://docs.google.com/a/knewton.com/spreadsheet/ccc?key=`**SPREADSHEET_ID**`#gid=0`
-5. Run it! Note that the calendar invites will be owned by the user who runs the
+5. Run it! Run the function `main()`.
+   Note that the calendar invites will be owned by the user who runs the
    script. Pro tip: create a new account to run the script so as to avoid an account
    with lots of calendar invites that say "random lunch".
 6. Use a [Time Trigger](https://developers.google.com/apps-script/understanding_triggers#TimeTriggers)
